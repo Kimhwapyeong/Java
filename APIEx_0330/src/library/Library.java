@@ -1,4 +1,4 @@
-package com.objectEx;
+package library;
 //0330
 public class Library {
 	

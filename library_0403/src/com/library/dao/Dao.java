@@ -10,11 +10,11 @@ public interface Dao {
 	
 	// 관리자 메뉴
 	// 신규 도서 등록
-	int insertBook(Book book);
+	int insertBook(List<Book> list);
 	
 	// 도서 삭제
-	int deleteBook(Book book);
+	int deleteBook(List<Book> list);
 	
 	// 도서 정보 업데이트
-	int updateBook(Book book);
+	int updateBook(List<Book> list);
 }

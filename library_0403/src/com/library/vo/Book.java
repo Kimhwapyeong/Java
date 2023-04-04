@@ -19,6 +19,12 @@ public class Book {
 		this.isRent = isRent;
 	}
 	
+	@Override
+	public String toString() {
+
+		return getNo() + " " + getTitle() + " " + getAuthor() + " " + isRent();
+	}
+	
 	/**
 	 * 책의 정보를 출력
 	 */

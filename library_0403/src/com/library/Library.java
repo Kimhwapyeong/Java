@@ -26,13 +26,19 @@ public class Library {
 		}
 		// 책의 리스트를 조회 (파일 또는 DB를 이용해서 조회)
 		// 책을 생성해서 리스트에 담아줄게요
+		bookList = dao.getBookList();
+		// 등록된 책 리스트 출력
+		System.out.println("라이브러리 생성자");
+		System.out.println("도서 목록");
+		info();
+		
 		// TODO : 일련번호가 겹치지 않았으면 좋겠다
 		// 데이터베이스를 이용할 경우 번호를 기본키로 사용시
 		// 중복된 번호는 입력이 안되므로 오류 발생
-		bookList.add(new Book(1, "책1", "작가1", false));
-		bookList.add(new Book(2, "책2", "작가2", false));
-		bookList.add(new Book(3, "책3", "작가3", false));
-		bookList.add(new Book(4, "책4", "작가4", false));
+//		bookList.add(new Book(1, "책1", "작가1", false));
+//		bookList.add(new Book(2, "책2", "작가2", false));
+//		bookList.add(new Book(3, "책3", "작가3", false));
+//		bookList.add(new Book(4, "책4", "작가4", false));
 	}
 	
 	/**
@@ -44,10 +50,18 @@ public class Library {
 	 * @return
 	 */
 	public boolean insertBook(int no, String title, String author, boolean isRent) {
+		for(Book book : bookList) {
+			if(book.getNo() == no) {
+				System.err.println("중복되는 일련번호가 존재합니다.");
+				return false;
+			}
+		}
 		try {
 			Book book = new Book(no, title, author, isRent);
+			// 신규 책을 생성하여 리스트에 담습니다.
 			bookList.add(book);
-			dao.insertBook(book);
+			// 리스트를 파일에 저장합니다.
+			dao.insertBook(bookList);
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -67,7 +81,7 @@ public class Library {
 				// 이미 대여중인 경우
 				if(!book.isRent()) {
 					book.setRent(true);
-					dao.updateBook(book);
+					dao.updateBook(bookList);
 					return true;
 				}else {
 					System.out.println("이미 대여중인 도서 입니다.");
@@ -88,7 +102,7 @@ public class Library {
 				if(book.isRent()) {
 					// 대여여부 변경 = 책의 정보를 수정
 					book.setRent(false);
-					dao.updateBook(book);
+					dao.updateBook(bookList);
 					return true;
 				}else {
 					System.out.println("대여되지 않은 도서 입니다.\n관리자에게 문의해주세요.");
@@ -106,7 +120,7 @@ public class Library {
 		for(Book book : bookList) {
 			if(book.getNo() == index) {
 				bookList.remove(book);
-				dao.deleteBook(book);
+				dao.deleteBook(bookList);
 				return true;
 			}
 		}

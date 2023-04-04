@@ -47,6 +47,12 @@ public class Application {
 			case 1:
 				System.out.println("일련번호를 입력해주세요.");
 				num = getInt();
+				// TODO 일련번호가 겹치는 번호를 받으면 오류 반환
+//				try {
+//					for(int i=0; i<)
+//				} catch (Exception e) {
+//					// TODO: handle exception
+//				}
 				System.out.println("제목을 입력해주세요.");
 				String title = getString();
 				System.out.println("작가를 입력해주세요.");

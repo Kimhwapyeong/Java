@@ -14,20 +14,20 @@ public class DataBaseDao implements Dao{
 	}
 
 	@Override
-	public int insertBook(Book book) {
-		System.out.println("DB-도서정보 입력");
+	public int insertBook(List<Book> list) {
+		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int deleteBook(Book book) {
-		System.out.println("DB-도서삭제");
+	public int deleteBook(List<Book> list) {
+		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int updateBook(Book book) {
-		System.out.println("DB-도서정보 업데이트");
+	public int updateBook(List<Book> list) {
+		// TODO Auto-generated method stub
 		return 0;
 	}
 

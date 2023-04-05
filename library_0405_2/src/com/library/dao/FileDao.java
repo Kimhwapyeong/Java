@@ -53,7 +53,7 @@ public class FileDao implements Dao{
 		try(FileWriter fw = new FileWriter("bookList.txt")) {
 			
 			for(Book book : list) {
-				fw.write(book.toString() + "\n");
+				fw.write(book.info() + "\n");
 			}
 			
 			fw.flush();

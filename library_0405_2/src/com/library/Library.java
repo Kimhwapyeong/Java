@@ -70,9 +70,108 @@ public class Library {
 	
 	public boolean rentBook(int no) {
 		
+		for(Book book : list) {
+			if(book.getNo() == no) {
+				if(!book.isRent()) {
+					book.setRent(true);
+					boolean res = dao.ListToFile(list);
+					if(res){
+						System.out.println(book.getTitle() + "을(를) 대여하였습니다.");
+						System.out.println(toString());
+						return true;
+					}else {
+						System.err.println("대여 실패(파일에 저장중 오류 발생)");
+						System.out.println(toString());
+						return false;
+					}
+				}else {
+					System.err.println(book.getTitle() + "은(는) 이미 대여중인 책입니다.");
+					return false;
+				}
+			}
+		}
+		System.err.println("해당하는 일련번호의 도서가 존재하지 않습니다.");
+		return false;
+	}
+	
+	public boolean rentBook(String title) {
 		
+		for(Book book : list) {
+			if(book.getTitle().equals(title)) {
+				if(!book.isRent()) {
+					book.setRent(true);
+					boolean res = dao.ListToFile(list);
+					if(res){
+						System.out.println(book.getTitle() + "을(를) 대여하였습니다.");
+						System.out.println(toString());
+						return true;
+					}else {
+						book.setRent(false);
+						System.err.println("대여 실패(파일에 저장중 오류 발생)");
+						System.out.println(toString());
+						return false;
+					}
+				}else {
+					System.err.println(book.getTitle() + "은(는) 이미 대여중인 책입니다.");
+					return false;
+				}
+			}
+		}
+		System.err.println("해당하는 제목의 도서가 존재하지 않습니다.");
+		return false;
+	}
+	
+	public boolean returnBook(int no) {
 		
+		for(Book book : list) {
+			if(book.getNo() == no) {
+				if(book.isRent()) {
+					book.setRent(false);
+					boolean res = dao.ListToFile(list);
+					if(res) {
+						System.out.println(book.getTitle() + "을(를) 반납하였습니다.");
+						System.out.println(toString());
+						return true;
+					}else {
+						book.setRent(true);
+						System.out.println("반납 실패(파일에 저장중 오류 발생)");
+						System.out.println(toString());
+						return false;
+					}
+				}else {
+					System.err.println(book.getTitle() + "은(는) 대여되지 않은 책 입니다.");
+					return false;
+				}
+			}
+		}
+		System.out.println("해당하는 일련번호의 도서가 존재하지 않습니다.");
+		return false;
+	}
+	
+	public boolean returnBook(String title) {
 		
+		for(Book book : list) {
+			if(book.getTitle().equals(title)) {
+				if(book.isRent()) {
+					book.setRent(false);
+					boolean res = dao.ListToFile(list);
+					if(res) {
+						System.out.println(book.getTitle() + "을(를) 반납하였습니다.");
+						System.out.println(toString());
+						return true;
+					}else {
+						book.setRent(true);
+						System.out.println("반납 실패(파일에 저장중 오류 발생)");
+						System.out.println(toString());
+						return false;
+					}
+				}else {
+					System.err.println(book.getTitle() + "은(는) 대여되지 않은 책입니다.");
+					return false;
+				}
+			}
+		}
+		System.err.println("해당하는 제목의 도서가 존재하지 않습니다.");
 		return false;
 	}
 	

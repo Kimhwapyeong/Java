@@ -1,10 +1,10 @@
 package com.library;
 
-import java.io.FileWriter;
 import java.util.Collections;
 import java.util.List;
 
 import com.library.dao.Dao;
+import com.library.dao.DataBaseDao;
 import com.library.dao.FileDao;
 import com.library.vo.Book;
 
@@ -20,6 +20,15 @@ public class Library {
 	// 생성자 : 클래스명과 같은 이름, 반환타입이 없다
 	public Library() {
 		// 리스트 초기화
+		list = dao.getList();
+		System.out.println(toString());
+	}
+	
+	public Library(String daoType) {
+		// 리스트 초기화
+		if(daoType.equalsIgnoreCase("db")) {
+			dao = new DataBaseDao();
+		}
 		list = dao.getList();
 		System.out.println(toString());
 	}
@@ -121,6 +130,16 @@ public class Library {
 					book.setRent(true);
 					// 파일로 출력
 					boolean res = dao.ListToFile(list);
+					// 데이터베이스 업데이트
+					int i = dao.update(no);
+					if(i>0) {
+						System.out.println(i + "건 대여되었습니다.");
+					}else {
+						System.err.println("처리도중 오류 발생");
+						book.setRent(false);
+						return false;
+					}
+					
 					if(!res) {
 						book.setRent(false);
 						System.err.println("파일로 출력하는데 실패했습니다.");
@@ -179,6 +198,8 @@ public class Library {
 					// 반납처리
 					book.setRent(false);
 					boolean res = dao.ListToFile(list);
+					// DB 업데이트 로직 호출
+					dao.update(no);
 					if(!res) {
 						book.setRent(true);
 						System.err.println("파일로 출력하는데 실패했습니다.");

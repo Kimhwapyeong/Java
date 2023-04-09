@@ -107,7 +107,7 @@ public class JDBCEx {
 			// 쿼리 실행
 			int res = stmt.executeUpdate("update book\r\n"
 					+ "set isrent = 'Y'\r\n"
-					+ "where no = 10");
+					+ "where no = 3");
 			// 결과 출력
 			System.out.println(res + "건 처리 되었습니다.");
 			

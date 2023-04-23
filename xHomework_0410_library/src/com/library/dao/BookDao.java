@@ -1,6 +1,7 @@
 package com.library.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -37,6 +38,43 @@ public class BookDao {
 		}
 		
 		return list;
+	}
+
+	public int insertBook(BookVo bookVo) {
+		
+		String sql = "INSERT INTO BOOK VALUES(SEQ_BOOKNO.NEXTVAL, ?, ?, ?)";
+		try (Connection conn = DBUtil.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql)){
+			pstmt.setString(1, bookVo.getTitle());
+			pstmt.setString(2, bookVo.getAuthor());
+			pstmt.setString(3, bookVo.getRentYN());
+			
+			int res = pstmt.executeUpdate();
+			return res;
+			
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return 0;
+	}
+
+	public int deleteBook(int bookNo) {
+		
+		String str = "DELETE BOOK WHERE BOOKNO = ?";
+		try(Connection conn = DBUtil.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(str)) {
+			pstmt.setInt(1, bookNo);
+			
+			int res = pstmt.executeUpdate();
+			return res;
+			
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
 }

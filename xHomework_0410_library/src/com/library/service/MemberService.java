@@ -18,4 +18,14 @@ public class MemberService {
 		}
 	}
 
+	public void insertMember(MemberVo memberVo) {
+		int res = memberDao.insertMember(memberVo);
+		if(res>0) {
+			System.out.println("사용자 등록 성공");
+		}else {
+			System.err.println("입력 중 오류 발생");
+		}
+		
+	}
+
 }

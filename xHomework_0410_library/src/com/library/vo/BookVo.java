@@ -12,6 +12,12 @@ public class BookVo {
 		this.rentYN = rentYN;
 		this.author = author;
 	}
+
+	public BookVo(String title, String author, String rentYN) {
+		this.title = title;
+		this.rentYN = rentYN;
+		this.author = author;
+	}
 	
 	@Override
 	public String toString() {

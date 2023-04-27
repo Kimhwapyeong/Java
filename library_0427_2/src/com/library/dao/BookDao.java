@@ -116,34 +116,49 @@ public class BookDao {
 		
 	}
 	
+	/**
+	 * 일련번호로 도서 대여
+	 * @param no
+	 * @return
+	 */
 	public int rentBook(int no) {
-		List<Book> list = getList();
 		int res = 0;
-		for(Book book : list) {
-			if(book.getNo() == no) {
-				if(book.getRentYN().equals("N")) {
-					String sql = "UPDATE BOOK SET RENTYN = 'Y' WHERE NO = ?";
-					
-					try(Connection conn = ConnectionUtil.getConnection();
-							PreparedStatement pstmt = conn.prepareStatement(sql)) {
-						
-						pstmt.setInt(1, no);
-						
-						res = pstmt.executeUpdate();
-						
-					} catch (SQLException e) {
-						System.err.println(e.getMessage());
-						e.printStackTrace();
-					}
-					
-				}else {
-					System.err.println("대여중인 책 입니다.");
-					return res;
-				}
-			}else {
-				System.err.println("없는 도서 번호 입니다.");
-			}
-		}		
+		String sql = "UPDATE BOOK SET RENTYN = 'Y' WHERE NO = ?";
+
+		try(Connection conn = ConnectionUtil.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+			pstmt.setInt(1, no);
+
+			res = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
+	/**
+	 * 일련번호로 도서 반납
+	 * @param no
+	 * @return
+	 */
+	public int returnBook(int no) {
+		int res = 0;
+		String sql = "UPDATE BOOK SET RENTYN = 'N' WHERE NO = ?";
+
+		try(Connection conn = ConnectionUtil.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+			pstmt.setInt(1, no);
+
+			res = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+		}
 		return res;
 	}
 }

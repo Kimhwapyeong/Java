@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import com.library.service.BookService;
 import com.library.service.MemberService;
+import com.library.vo.Book;
 import com.library.vo.Member;
 
 /**
@@ -31,64 +32,129 @@ public class LibraryController {
 		System.out.println("도서관에 오신것을 환영합니다.");
 		System.out.println("----------------------");
 		System.out.println("이용을 위해 로그인해주세요.");
-		Member member = login();
-		
-		bookService.getList();
-		
-		if(member.getAdminYN().equalsIgnoreCase("Y")) {
-			adminMenu();
-		}else {
-			userMenu();
+		while(true) {
+			Member member = login();
+			
+			bookService.getList();
+			
+			if(member.getAdminYN().equalsIgnoreCase("Y")) {
+				adminMenu();
+			}else {
+				userMenu();
+			}
+			
 		}
-
 
 	}
 	
 	private void adminMenu() {
 		System.out.println("관리자 메뉴 입니다.");
-		System.out.println("1. 도서등록 2. 도서삭제 3. 사용자등록 "
-				+ "4. 사용자삭제 5. 로그아웃 6. 프로그램 종료");
-		System.out.print("메뉴 선택> ");
-		int menu = getInt();
-		
-		switch(menu) {
-		case 1 :
+		while(true) {
+			System.out.println("1. 도서등록 2. 도서삭제 3. 사용자등록 "
+					+ "4. 사용자삭제 5. 로그아웃 6. 프로그램 종료");
+			System.out.print("메뉴 선택> ");
+			int menu = getInt();
 			
-			break;
-		case 2 :
-			
-			break;
-		case 3 :
-			System.out.print("아이디 > ");
-			String id = getString();
-			System.out.print("비밀번호 > ");
-			String pw = getString();
-			System.out.print("이름 > ");
-			String name = getString();
-			System.out.print("관리자여부 > ");
-			String adminYN = getString();
-			
-			Member member = new Member(id, pw, name, adminYN, "Y", "B");
-			memberService.insertMember(member);
-			break;
-		case 4 :
-			
-			break;
-		case 5 :
-			
-			break;
-		case 6 :
-			
-			break;
-		default :
-			
-			break;
+			switch(menu) {
+			case 1 :
+				System.out.println("--- 도서 등록 ---");
+				System.out.print("책 제목 > ");
+				String title = getString();
+				System.out.print("작가 > ");
+				String author = getString();
+				
+				Book book = new Book(title, author);
+				bookService.insertBook(book);
+				break;
+			case 2 :
+				System.out.println("--- 도서 삭제 ---");
+				System.out.println("1. 일련번호로 삭제 2. 제목으로 삭제");
+				System.out.print("삭제 방법 선택 > ");
+				int cho = getInt();
+				if(cho == 1) {
+					System.out.println("일련번호 > ");
+					int no = getInt();
+					bookService.deleteBook(no);
+				}else if(cho == 2) {
+					System.out.println("책 제목 > ");
+					String deleteTitle = getString();
+					bookService.deleteBook(deleteTitle);
+				}else {
+					System.err.println("1 또는 2를 입력해주세요.");
+				}
+				
+				break;
+			case 3 :
+				System.out.println("--- 사용자 등록 ---");
+				System.out.print("아이디 > ");
+				String id = getString();
+				System.out.print("비밀번호 > ");
+				String pw = getString();
+				System.out.print("이름 > ");
+				String name = getString();
+				System.out.print("관리자여부 > ");
+				String adminYN = getString();
+				
+				Member member = new Member(id, pw, name, adminYN, "Y", "B");
+				memberService.insertMember(member);
+				break;
+			case 4 :
+				System.out.println("--- 사용자 삭제 ---");
+				System.out.print("삭제할 아이디 > ");
+				String deleteId = getString();
+				
+				memberService.deleteMember(deleteId);
+				break;
+			case 5 :
+				
+				return;
+			case 6 :
+				System.out.println("프로그램 종료");
+				System.exit(0);
+				
+				break;
+			default :
+				System.out.println("메뉴를 확인해주세요.");
+				break;
+			}
 		}
+		
 		
 	}
 
 	private void userMenu() {
-		// TODO Auto-generated method stub
+		System.out.println("사용자 메뉴 입니다.");
+		while(true) {
+			System.out.println("1. 도서대여 2. 도서반납 3. 도서대여현황 4. 로그아웃 5. 프로그램 종료");
+			
+			System.out.print("메뉴 선택> ");
+			int menu = getInt();
+			
+			switch(menu) {
+			case 1 :
+				System.out.print("대여할 책의 일련번호 > ");
+				int no = getInt();
+				bookService.rentBook(no);
+				
+				break;
+			case 2 :
+				
+				break;
+			case 3 :
+				
+				break;
+			case 4 :
+				
+				return;
+			case 5 :	
+				System.exit(0);
+				break;
+			default :
+				
+				break;
+			}
+			
+		}
 		
 	}
 

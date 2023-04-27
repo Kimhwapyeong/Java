@@ -27,12 +27,27 @@ public class MemberService {
 		if(dao.idCheck(member.getId())) {
 			int res = dao.insertMember(member);
 			if(res>0) {
-				System.out.println(res + "건 처리되었습니다.");
+				System.out.println(member.getId() + "가(이) 추가되었습니다.");
 			}else {
-				System.err.println("아이디 생성중 오류 발생");
+				System.err.println("아이디 생성 중 오류 발생");
 			}
 		}else {
 			System.err.println("중복되는 아이디가 존재합니다.");
+		}
+		
+	}
+
+	public void deleteMember(String deleteId) {
+		if(!dao.idCheck(deleteId)) {
+			int res = dao.deleteMember(deleteId);
+			if(res > 0) {
+				System.out.println(deleteId + "가(이) 삭제되었습니다.");
+			}else {
+				System.err.println("아이디 삭제 중 오류 발생");
+			}
+			
+		}else {
+			System.err.println(deleteId + "는(은) 가입되지 않은 아이디 입니다.");
 		}
 		
 	}

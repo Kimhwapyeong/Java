@@ -45,7 +45,7 @@ public class BookDao {
 		return list;
 	}
 	/**
-	 * 도서 삽입
+	 * 도서 등록
 	 * @param book
 	 * @return
 	 */
@@ -161,4 +161,5 @@ public class BookDao {
 		}
 		return res;
 	}
+
 }
